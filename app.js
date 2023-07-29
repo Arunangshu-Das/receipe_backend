@@ -125,6 +125,69 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/changepassword",async(req,res)=>{
+  try{
+    const { email, password } = req.body;
+    if (!(email && password)) {
+      res.status(401).send("All fields are mandetory");
+    }
+    const extUser = await User.findOne({ email });
+    extUser.password = await bcrypt.hash(password, Number(process.env.HASH));
+    await extUser.save();
+    res.status(200).json({
+      success: true,
+      message: "Password successfully changed",
+    });
+  }
+  catch(err){
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+})
+
+app.post("/phoneno", async (req, res) => {
+  try {
+    const { email, phoneno } = req.body;
+    if (!(email && phoneno)) {
+      res.status(401).send("All fields are mandetory");
+    }
+    const extUser = await User.findOne({ email });
+    extUser.phoneno = phoneno;
+    await extUser.save();
+    res.status(200).json({
+      success: true,
+      message: "Phone number successfully changed/added",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+});
+
+app.post("/dob", async (req, res) => {
+  try {
+    const { email, dob } = req.body;
+    if (!(email && dob)) {
+      res.status(401).send("All fields are mandetory");
+    }
+    const extUser = await User.findOne({ email });
+    extUser.dob = dob;
+    await extUser.save();
+    res.status(200).json({
+      success: true,
+      message: "DOB successfully Added/Changed",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+});
 
 
 
