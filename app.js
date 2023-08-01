@@ -8,6 +8,7 @@ const uniqid = require("uniqid");
 const User = require("./model/user");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Receipe Sharing");
