@@ -45,7 +45,38 @@ const receipeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     default: null,
   },
+  rating: {
+    type: Number, 
+    default: 3, 
+  },
+  reviews: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Review", // Reference to the Review model
+  }],
 });
+
+// Method to update the recipe's rating with a complex algorithm
+receipeSchema.methods.updateRating = async function (newRating) {
+  // Ensure the new rating is within the range of 0 to 5
+  if (newRating >= 0 && newRating <= 5) {
+    // Calculate a weighted average of the existing rating and the new rating
+    // You can adjust the weights to customize the algorithm
+    const currentRating = this.rating || 3; // Default to 3 if no previous rating exists
+    const weightCurrent = 0.7; // Weight for the current rating
+    const weightNew = 0.3; // Weight for the new rating
+
+    // Calculate the updated rating
+    this.rating = (currentRating * weightCurrent + newRating * weightNew) / (weightCurrent + weightNew);
+
+    // Round the rating to two decimal places
+    this.rating = Math.round(this.rating * 100) / 100;
+
+    await this.save();
+  } else {
+    throw new Error("Rating must be between 1 and 5");
+  }
+};
+
 
 // Method to handle liking a recipe
 receipeSchema.methods.like = async function (userId) {

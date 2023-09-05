@@ -9,6 +9,11 @@ const showuser = require('./controller/showuser');
 const updateuser=require('./controller/update');
 const login=require('./controller/login');
 const register=require('./controller/newlogin');
+const addreview=require('./controller/addreview');
+const nooflikeanddislike=require('./controller/noOfLikeDislike');
+const searchreceipe=require('./controller/searchReceipe');
+const updateratereceipe=require('./controller/updateRateReceipe');
+const editrecipe=require('./controller/editReceipe');
 const router = express.Router();
 
 
@@ -24,6 +29,10 @@ router.get("/getreceipe", getreceipe);
 router.get("/receipes", getallreceipe);
 router.post("/addlike", addlike);
 router.post("/adddislike", adddislike);
-
+router.post("/editrecipe", editrecipe);
+router.get("/nooflikeanddislike", nooflikeanddislike);
+router.get("/searchreceipe", searchreceipe);
+router.post("/updateratereceipe", updateratereceipe);
+router.post("/addreview", addreview);
 
 module.exports = router;

@@ -2,7 +2,7 @@ const User = require("../model/user");
 const bcrypt = require("bcryptjs");
 const updateuser=async (req, res) => {
   try {
-    const { firstname, lastname, email, phoneno, password, dob } = req.body;
+    const { firstname, lastname, email, phoneno, password,newpass, dob } = req.body;
 
     if (!(firstname && lastname && email && password)) {
       res.status(401).send("All fields are mandetory");
@@ -10,9 +10,11 @@ const updateuser=async (req, res) => {
 
     const extUser = await User.findOne({ email });
     if (!extUser) res.status(401).send("User not found");
+    if (!bcrypt.compare(password, extUser.password))
+      res.status(401).send("Password not found");
     extUser.firstname = firstname;
     extUser.lastname = lastname;
-    extUser.password = await bcrypt.hash(password, Number(process.env.HASH));
+    if(newpass) extUser.password = await bcrypt.hash(newpass, Number(process.env.HASH));
     if (phoneno) extUser.phoneno = phoneno;
     if (dob) extUser.dob = dob;
     await extUser.save();
