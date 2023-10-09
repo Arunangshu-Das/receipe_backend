@@ -1,14 +1,11 @@
-const User = require("../model/user");
 const Receipe = require("../model/receipe");
 
-const getreceipe = async (req, res) => {
+const searchreceipe = async (req, res) => {
   try {
-    // const recipeId = req.params.recipeId;
-    const { rname } = req.body;
+    const { receipe } = req.body;
 
-    // Retrieve the recipe
     const recipe = await Receipe.find({
-      name: { $regex: rname, $options: "i" },
+      name: { $regex: receipe, $options: "i" },
     });
 
     if (!recipe) {
@@ -16,7 +13,7 @@ const getreceipe = async (req, res) => {
     }
 
     res.status(200).json({
-      Recipe:recipe
+      Recipe: recipe,
     });
   } catch (error) {
     console.error(error);
@@ -24,4 +21,4 @@ const getreceipe = async (req, res) => {
   }
 };
 
-module.exports = getreceipe;
+module.exports = searchreceipe;
