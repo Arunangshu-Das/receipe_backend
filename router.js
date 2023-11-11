@@ -23,7 +23,7 @@ router.get("/showuser", showuser);
 router.post("/updaterate", userrate);
 
 router.post("/newreceipe", newreceipe);
-router.get("/getreceipe", getreceipe);
+router.post("/getreceipe", getreceipe);
 router.get("/receipes", getallreceipe);
 router.post("/addlike", addlike);
 router.post("/adddislike", adddislike);
